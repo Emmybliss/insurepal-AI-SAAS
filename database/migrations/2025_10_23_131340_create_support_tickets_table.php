@@ -22,7 +22,6 @@ return new class extends Migration
             $table->enum('category', ['technical', 'billing', 'general', 'feature_request', 'bug_report'])->default('general');
             $table->foreignId('requester_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('assignee_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('conversation_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamp('resolved_at')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();

@@ -31,6 +31,7 @@ import {
     Mail,
     PlusCircle,
     RefreshCw,
+    Rocket,
     Save,
     Server,
     Shield,
@@ -141,6 +142,13 @@ interface SettingsProps {
         resource: string;
         created_at: string;
     }>;
+    deployments?: Array<{
+        id: number;
+        commit_hash: string;
+        deployed_at: string;
+        status: string;
+        user?: { name: string } | null;
+    }>;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -154,7 +162,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function SuperAdminSettings({ settings, systemHealth, recentBackups, auditLogs }: SettingsProps) {
+export default function SuperAdminSettings({ settings, systemHealth, recentBackups, auditLogs, deployments }: SettingsProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [showPasswords, setShowPasswords] = useState(false);
     const [activeTab, setActiveTab] = useState('general');
@@ -1215,6 +1223,65 @@ export default function SuperAdminSettings({ settings, systemHealth, recentBacku
                                         <div className="py-8 text-center">
                                             <HardDrive className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
                                             <p className="text-muted-foreground">No backups available</p>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+
+                            {/* Deployment History */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center">
+                                        <Rocket className="mr-2 h-5 w-5" />
+                                        Deployment History
+                                    </CardTitle>
+                                    <CardDescription>Recent application deployments and releases</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    {deployments && deployments.length > 0 ? (
+                                        <div className="space-y-2">
+                                            {deployments.map((deployment) => (
+                                                <div key={deployment.id} className="flex items-center justify-between rounded-lg border p-3">
+                                                    <div className="flex items-center space-x-3">
+                                                        <Rocket className="h-4 w-4 text-muted-foreground" />
+                                                        <div>
+                                                            <p className="font-medium">
+                                                                <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+                                                                    {deployment.commit_hash.substring(0, 7)}
+                                                                </code>
+                                                            </p>
+                                                            <p className="text-sm text-muted-foreground">
+                                                                {new Date(deployment.deployed_at).toLocaleDateString('en-GB', {
+                                                                    day: 'numeric',
+                                                                    month: 'short',
+                                                                    year: 'numeric',
+                                                                })}{' '}
+                                                                {new Date(deployment.deployed_at).toLocaleTimeString('en-GB', {
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit',
+                                                                })}
+                                                                {deployment.user && <> &bull; {deployment.user.name}</>}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <Badge
+                                                        variant={
+                                                            deployment.status === 'success'
+                                                                ? 'default'
+                                                                : deployment.status === 'failed'
+                                                                  ? 'destructive'
+                                                                  : 'secondary'
+                                                        }
+                                                    >
+                                                        {deployment.status.toUpperCase()}
+                                                    </Badge>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="py-8 text-center">
+                                            <Rocket className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+                                            <p className="text-muted-foreground">No deployments recorded yet</p>
                                         </div>
                                     )}
                                 </CardContent>

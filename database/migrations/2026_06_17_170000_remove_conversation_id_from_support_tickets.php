@@ -9,6 +9,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (! Schema::hasColumn('support_tickets', 'conversation_id')) {
+            return;
+        }
+
         $driver = DB::getDriverName();
 
         if ($driver === 'sqlite') {

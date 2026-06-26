@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Deployment;
 use App\Models\Payment;
 use App\Models\Policy;
 use App\Models\Tenant;
@@ -219,6 +220,7 @@ class SuperAdminController extends Controller
         return Inertia::render('Admin/Settings', [
             'settings' => $settings ?: null,
             'systemHealth' => $systemHealth,
+            'deployments' => Deployment::latest()->take(10)->with('user')->get(),
         ]);
     }
 
