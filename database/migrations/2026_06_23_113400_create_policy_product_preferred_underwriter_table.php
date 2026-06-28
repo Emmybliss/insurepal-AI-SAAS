@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('policy_product_preferred_underwriter', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('policy_product_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('policy_product_id');
+            $table->foreign('policy_product_id', 'pppu_product_fk')->references('id')->on('policy_products')->cascadeOnDelete();
             $table->unsignedBigInteger('insurance_company_id');
             $table->timestamps();
 

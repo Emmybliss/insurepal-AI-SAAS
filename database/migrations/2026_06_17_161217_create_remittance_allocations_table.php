@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
             $table->foreignId('remittance_id')->constrained()->onDelete('cascade');
-            $table->morphs('allocatable');
+            $table->morphs('allocatable', 'ra_allocatable_idx');
             $table->string('allocation_type');
             $table->decimal('amount', 18, 2);
             $table->string('currency', 3)->default('NGN');

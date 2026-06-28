@@ -9,14 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('naicom_report_runs', function (Blueprint $table) {
-            $table->dropUnique(['tenant_id', 'reporting_year', 'reporting_half']);
+            $table->dropUnique('nrr_tenant_year_half_unique');
         });
     }
 
     public function down(): void
     {
         Schema::table('naicom_report_runs', function (Blueprint $table) {
-            $table->unique(['tenant_id', 'reporting_year', 'reporting_half']);
+            $table->unique(['tenant_id', 'reporting_year', 'reporting_half'], 'nrr_tenant_year_half_unique');
         });
     }
 };

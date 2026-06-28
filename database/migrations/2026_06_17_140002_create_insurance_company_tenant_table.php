@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('reference_code')->nullable();
             $table->boolean('is_preferred')->default(false);
             $table->timestamps();
-            $table->unique(['insurance_company_id', 'tenant_id']);
+            $table->unique(['insurance_company_id', 'tenant_id'], 'ict_company_tenant_unique');
         });
     }
 

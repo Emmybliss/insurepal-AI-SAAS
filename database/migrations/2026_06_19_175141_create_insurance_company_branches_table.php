@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['insurance_company_id', 'name']);
+            $table->unique(['insurance_company_id', 'name'], 'icb_company_name_unique');
         });
     }
 

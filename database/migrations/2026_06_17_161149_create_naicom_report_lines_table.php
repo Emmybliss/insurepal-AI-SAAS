@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('adjustment_id')->nullable();
             $table->timestamps();
 
-            $table->index(['report_run_id', 'form_type', 'row_number']);
+            $table->index(['report_run_id', 'form_type', 'row_number'], 'nrl_run_form_row_idx');
             $table->index(['source_type', 'source_id']);
         });
     }

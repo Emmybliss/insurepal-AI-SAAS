@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->timestamps();
 
-            $table->index(['tenant_id', 'client_bank_account_id', 'reconciliation_date']);
+            $table->index(['tenant_id', 'client_bank_account_id', 'reconciliation_date'], 'br_tenant_account_date_idx');
         });
     }
 
