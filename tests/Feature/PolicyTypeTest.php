@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\PolicyType;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,6 +17,8 @@ class PolicyTypeTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Role::create(['name' => 'super_admin', 'guard_name' => 'web']);
 
         $this->superAdmin = User::factory()->create([
             'email' => 'admin@mindintel.com',

@@ -27,7 +27,11 @@ class DocumentToolkitTest extends TestCase
 
     protected function createUserWithPlan($planSlug)
     {
-        $tenant = Tenant::factory()->create(['subscription_plan_id' => SubscriptionPlan::where('slug', $planSlug)->first()->id]);
+        $plan = SubscriptionPlan::where('slug', $planSlug)->first();
+        $tenant = Tenant::factory()->create([
+            'subscription_plan_id' => $plan->id,
+            'onboarding_completed' => true,
+        ]);
         $user = User::factory()->create(['tenant_id' => $tenant->id]);
 
         return $user;

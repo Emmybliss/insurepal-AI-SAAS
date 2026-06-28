@@ -6,11 +6,15 @@ use App\Models\PolicyAmendment;
 use App\Models\PolicyProduct;
 use App\Models\Tenant;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
+    // Create underwriter role
+    Role::create(['name' => 'underwriter', 'guard_name' => 'web']);
+
     // Create a tenant
     $this->tenant = Tenant::factory()->create([
         'type' => 'underwriter',

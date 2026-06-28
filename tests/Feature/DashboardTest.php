@@ -7,7 +7,10 @@ test('guests are redirected to the login page', function () {
 });
 
 test('authenticated users can visit the dashboard', function () {
-    $this->actingAs($user = User::factory()->create());
+    $tenant = \App\Models\Tenant::factory()->create(['onboarding_completed' => true]);
+    $user = User::factory()->create(['tenant_id' => $tenant->id]);
+
+    $this->actingAs($user);
 
     $this->get(route('dashboard'))->assertOk();
 });
